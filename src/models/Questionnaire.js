@@ -21,6 +21,9 @@ const questionnaireSchema = mongoose.Schema({
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId, ref: 'User'
+        },
+        child: {
+            type: Object,
         }
     })
 
