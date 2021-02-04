@@ -37,6 +37,14 @@ const userSchema = mongoose.Schema({
         consent: {
             type: Boolean,
             default: false
+        },
+        isParent: {
+            type: Boolean,
+            default: true
+        },
+        parentId: {
+            type: String,
+            default: ''
         }
     })
 
@@ -46,6 +54,13 @@ userSchema.pre('save', async function (next) {
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8)
     }
+
+    //For parents, we save the last 8 digits of the ObjectId as the uniqueId used to link parents and children
+    if (user.isParent) {
+        const stringId = user._id.toString();
+        const parentId = stringId.substr(stringId.length - 8);
+        user.parentId = parentId
+    } 
     next()
 })
 

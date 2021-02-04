@@ -6,26 +6,59 @@ const router = express.Router()
 const passwordHelper = require('../helper/passwordHelper')
 const emailHelper = require('../helper/emailHelper')
 const ObjectId = require('mongoose').Types.ObjectId;
+const verifyParentId = require('../middleware/verifyParentId');
 
-router.put('/users', async (req, res) => {
-    // Create a new user
-    try {
-        const user = new User(req.body)
-        await user.save()
-        const token = await user.generateAuthToken()
-        //emailHelper.verifyEmail(req.body.email, req.body.firstName, token)
-        //res.status(201).send({ user, token })
-        res.status(201).send(true)
-    } catch (err) {
+router.put('/users',[verifyParentId], async (req, res) => {
+    console.log(req.body);
+
+    const isParent = !req.body.isChild;
+    let parentId = req.body.parentId;
+    if (!isParent && parentId === '') {
+        return res.status(404).send({ message: "Identifiant du parent non renseigné." });
+    }
+
+    if (isParent) {
+        parentId = '';
+    }
+
+    const user = new User({
+        email: req.body.email,
+        isParent: isParent,
+        parentId: parentId,
+        password: req.body.password
+    });
+
+    user.save((err, user) => {
         if (err) {
             if (err.name === 'MongoError' && err.code === 11000) {
-                return res.status(422).send({ failed: 'User already exist!' });
+                return res.status(422).send({ failed: 'Cet email est déjà utilisé.' });
             }
-            console.log(err)
-            return res.status(422).send({ failed: 'Account creation failed' });
+            res.status(500).send({message: err});
+            return;
         }
-        res.status(400).send({ failed: 'Account creation failed' })
-    }
+
+        user.generateAuthToken();
+        res.status(201).send(true);
+    })
+
+    // // Create a new user
+    // try {
+    //     const user = new User(req.body)
+    //     await user.save()
+    //     const token = await user.generateAuthToken()
+    //     //emailHelper.verifyEmail(req.body.email, req.body.firstName, token)
+    //     //res.status(201).send({ user, token })
+    //     res.status(201).send(true)
+    // } catch (err) {
+    //     if (err) {
+    //         if (err.name === 'MongoError' && err.code === 11000) {
+    //             return res.status(422).send({ failed: 'User already exist!' });
+    //         }
+    //         console.log(err)
+    //         return res.status(422).send({ failed: 'Account creation failed' });
+    //     }
+    //     res.status(400).send({ failed: 'Account creation failed' })
+    // }
 })
 
 router.patch('/users', auth, async(req, res) => {
