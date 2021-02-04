@@ -31,7 +31,7 @@ router.put('/users',[verifyParentId], async (req, res) => {
     user.save((err, user) => {
         if (err) {
             if (err.name === 'MongoError' && err.code === 11000) {
-                return res.status(422).send({ failed: 'Cet email est déjà utilisé.' });
+                return res.status(422).send({ message: 'Cet email est déjà utilisé.' });
             }
             res.status(500).send({message: err});
             return;
