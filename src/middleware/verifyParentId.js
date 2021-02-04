@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
         next();
     } else {
         console.log('checking if parent exists based on parentId:' + req.body.parentId);
-        User.findOne({ parentId: req.body.parentId }, (err, user) => {
+        User.findOne({ parentId: req.body.parentId, isParent: true }, (err, user) => {
             if (err) {
                 res.status(500).send({ message: err });
                 return;
