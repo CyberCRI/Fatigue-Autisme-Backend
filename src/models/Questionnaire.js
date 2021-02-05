@@ -27,6 +27,13 @@ const questionnaireSchema = mongoose.Schema({
         }
     })
 
+questionnaireSchema.statics.findByUser = async (user) => {
+
+    console.log(user)
+    const questionnaire = await Questionnaire.findOne({ userId: user.userId });
+    return questionnaire;
+}
+
 const Questionnaire = mongoose.model('Questionnaire', questionnaireSchema)
 
 module.exports = Questionnaire

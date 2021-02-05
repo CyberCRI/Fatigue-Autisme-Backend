@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/User')
+const Questionnaire = require('../models/Questionnaire')
 const auth = require('../middleware/auth')
 const bcrypt = require('bcryptjs')
 const router = express.Router()
@@ -83,7 +84,9 @@ router.post('/users/login', async(req, res) => {
             return res.status(401).send('Email non vérifié')
         }
         const token = await user.generateAuthToken()
-        res.send({ user, token })
+        const questionnaire = await Questionnaire.findByUser(user._id);
+
+        res.send({ user, token, questionnaire })
     } catch (error) {
         res.status(401).send('Identifiants invalides')
     }
