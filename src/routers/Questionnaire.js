@@ -82,11 +82,12 @@ router.put("/childQuestionnaire", auth, async (req, res) => {
     console.log(req.body)
 
     const userId = req.body.userId
-    const questionnaire = new Questionnaire()
-    questionnaire.child = req.body.content
-    questionnaire.userId = userId
+    const content = req.body.content
+    // const questionnaire = new Questionnaire()
+    // questionnaire.child = req.body.content
+    // questionnaire.userId = userId
 
-    Questionnaire.findOneAndUpdate({ userId: userId }, questionnaire, { upsert: true}, function(err, res) {
+    Questionnaire.findOneAndUpdate({ userId: userId }, {userId: userId, child: content}, { upsert: true}, function(err) {
         if (err) {
             console.log(err)
             if (err.name === 'MongoError' && err.code === 11000) {
@@ -94,7 +95,7 @@ router.put("/childQuestionnaire", auth, async (req, res) => {
             }
             return res.status(400).send({ failed: 'Cannot create questionnaire!' });
         }
-        res.status(201).send();
+        return res.status(201).send({ message: "Questionnaire enfant sauvé."});
     });
 
 
