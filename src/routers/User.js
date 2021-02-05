@@ -78,17 +78,17 @@ router.post('/users/login', async(req, res) => {
         const { email, password } = req.body
         const user = await User.findByCredentials(email, password)
         if (!user) {
-            return res.status(401).send('Identifiants invalides')
+            return res.status(401).send({ message:'Identifiants invalides.' })
         }
         if (user.status === 'Pending'){
-            return res.status(401).send('Email non vérifié')
+            return res.status(401).send({ message: 'Email non vérifié.' });
         }
         const token = await user.generateAuthToken()
         const questionnaire = await Questionnaire.findByUser(user._id);
 
         res.send({ user, token, questionnaire })
     } catch (error) {
-        res.status(401).send('Identifiants invalides')
+        res.status(401).send({ message: `Identifiants invalides.` })
     }
 })
 
