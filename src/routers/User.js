@@ -10,7 +10,6 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const verifyParentId = require('../middleware/verifyParentId');
 
 router.put('/users',[verifyParentId], async (req, res) => {
-    console.log(req.body);
 
     const isParent = !req.body.isChild;
     let parentId = req.body.parentId;
@@ -41,31 +40,11 @@ router.put('/users',[verifyParentId], async (req, res) => {
         user.generateAuthToken();
         res.status(201).send(true);
     })
-
-    // // Create a new user
-    // try {
-    //     const user = new User(req.body)
-    //     await user.save()
-    //     const token = await user.generateAuthToken()
-    //     //emailHelper.verifyEmail(req.body.email, req.body.firstName, token)
-    //     //res.status(201).send({ user, token })
-    //     res.status(201).send(true)
-    // } catch (err) {
-    //     if (err) {
-    //         if (err.name === 'MongoError' && err.code === 11000) {
-    //             return res.status(422).send({ failed: 'User already exist!' });
-    //         }
-    //         console.log(err)
-    //         return res.status(422).send({ failed: 'Account creation failed' });
-    //     }
-    //     res.status(400).send({ failed: 'Account creation failed' })
-    // }
 })
 
 router.patch('/users', auth, async(req, res) => {
     try {
         const user = await User.findOneAndUpdate({_id: new ObjectId(req.param('id'))}, req.body);
-        console.log(user)
         res.status(200).send(user)
     } catch (error) {
         res.status(500).send(error)
@@ -102,7 +81,6 @@ router.patch('/users/logout', auth, async (req, res) => {
     // Log user out of the application
     try {
         const user = await User.findOneAndUpdate({_id: new ObjectId(req.param('id'))}, {tokens: []});
-        console.log(user)
         res.status(200).send('deconnection')
     } catch (error) {
         console.log(error)
@@ -111,7 +89,6 @@ router.patch('/users/logout', auth, async (req, res) => {
 })
 
 router.put('/users/create', auth, async (req, res) => {
-    console.log(req.account)
     // Create a sub account
     try {
         password = passwordHelper.generatePassword(10)
@@ -171,7 +148,6 @@ router.post('/users/password/reset', async(req, res) => {
 router.get('/users/:id', auth, async(req, res) => {
     try {
         const user = await User.findOne({_id: new ObjectId(req.param('id'))});
-        console.log(user)
         res.status(200).send(user)
     } catch (error) {
         console.log(error)

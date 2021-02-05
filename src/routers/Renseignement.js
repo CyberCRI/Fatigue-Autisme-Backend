@@ -27,7 +27,6 @@ router.patch('/renseignement/update/:id', auth, async(req, res) => {
         const data = { name: req.body.name, description: req.body.description, events: req.body.events}
         const renseignement = await Renseignement.findOneAndUpdate({_id: new ObjectId(req.param('id'))}, data);
         renseignement.save()
-        console.log(renseignement)
         res.status(200).send(renseignement)
     } catch (error) {
         res.status(500).send(error)

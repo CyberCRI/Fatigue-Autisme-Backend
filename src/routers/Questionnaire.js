@@ -23,9 +23,6 @@ router.get('/questionnaire/:id', auth, async(req, res) => {
 })
 
 router.patch('/questionnaire', auth, async(req, res) => {
-    console.log(`>>patch /questionnaire`)
-    console.log(`req.body=`)
-    console.log(req.body)
     try {
         let data= {};
         if(req.body.id===2) {
@@ -43,7 +40,6 @@ router.patch('/questionnaire', auth, async(req, res) => {
         else if(req.body.id===6) {
             data = { questionnaire6: req.body.content}
         }
-        console.log(data)
         const questionnaire = await Questionnaire.findOneAndUpdate({userId: new ObjectId(req.body.userId)}, data);
         questionnaire.save()
         res.status(200).send(questionnaire)
@@ -54,9 +50,6 @@ router.patch('/questionnaire', auth, async(req, res) => {
 })
 
 router.put("/questionnaire", auth,  async (req, res) => {
-    console.log(`>>put /questionnaire`)
-    console.log(`req.body=`)
-    console.log(req.body)
     // Create a new fiche questionnaire
     try {
         const questionnaire = new Questionnaire()
@@ -77,15 +70,9 @@ router.put("/questionnaire", auth,  async (req, res) => {
 });
 
 router.put("/childQuestionnaire", auth, async (req, res) => {
-    console.log(`>>put /childQuestionnaire`)
-    console.log(`req.body=`)
-    console.log(req.body)
 
     const userId = req.body.userId
     const content = req.body.content
-    // const questionnaire = new Questionnaire()
-    // questionnaire.child = req.body.content
-    // questionnaire.userId = userId
 
     Questionnaire.findOneAndUpdate({ userId: userId }, {userId: userId, child: content}, { upsert: true}, function(err) {
         if (err) {
@@ -97,22 +84,6 @@ router.put("/childQuestionnaire", auth, async (req, res) => {
         }
         return res.status(201).send({ message: "Questionnaire enfant sauvé."});
     });
-
-
-    // try {       })
-        
-    //     res.status(201).send(questionnaire)
-    // } catch (err) {
-    //     if (err) {
-    //         console.log(err)
-    //         if (err.name === 'MongoError' && err.code === 11000) {
-    //             return res.status(400).send({ failed: 'Cannot create questionnaire!' });
-    //         }
-    //         return res.status(400).send({ failed: 'Cannot create questionnaire!' });
-    //     }
-    //     res.status(400).send({ failed: 'Cannot create questionnaire' })
-    // } 
-
 })
 
 module.exports = router
