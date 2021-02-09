@@ -70,6 +70,9 @@ router.put("/questionnaire", auth,  async (req, res) => {
 });
 
 router.put("/childQuestionnaire", auth, async (req, res) => {
+    console.log(`\n>>put /childQuestionnaire:`);
+    console.log(`>>body:`);
+    console.log(req.body);
 
     const userId = req.body.userId
     const content = req.body.content

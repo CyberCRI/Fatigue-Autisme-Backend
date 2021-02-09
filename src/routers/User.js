@@ -52,6 +52,9 @@ router.patch('/users', auth, async(req, res) => {
 })
 
 router.post('/users/login', async(req, res) => {
+    console.log(`\n>>post users/login:`);
+    console.log(`>>req.body:`);
+    console.log(req.body);
     //Login a registered user
     try {
         const { email, password } = req.body
@@ -62,11 +65,14 @@ router.post('/users/login', async(req, res) => {
         if (user.status === 'Pending'){
             return res.status(401).send({ message: 'Email non vérifié.' });
         }
+        console.log(`>>Found user id:` + user._id);
         const token = await user.generateAuthToken()
         const questionnaire = await Questionnaire.findByUser(user._id);
+        console.log(`>>questionnaire:` + questionnaire);
 
         res.send({ user, token, questionnaire })
     } catch (error) {
+        console.log(`>>Identifiants invalides`);
         res.status(401).send({ message: `Identifiants invalides.` })
     }
 })
