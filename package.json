@@ -1,12 +1,12 @@
 {
   "name": "fatigue-mentale",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
     "start:dev": "env-cmd -f ./.env.dev nodemon src/app.js"
   },
-  "author": "Eddy Gangloff",
+  "author": "CRI",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

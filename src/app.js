@@ -9,6 +9,7 @@ const indexRouter = require('./routers/Index')
 const userRouter = require('./routers/User')
 const renseignementRouter = require('./routers/Renseignement')
 const questionnaireRouter = require('./routers/Questionnaire')
+const commentRouter = require('./routers/Comment')
 
 const port = process.env.PORT
 const nodeEnv = process.env.NODE_ENV || 'dev'
@@ -26,6 +27,7 @@ app.use(indexRouter)
 app.use(userRouter)
 app.use(renseignementRouter)
 app.use(questionnaireRouter)
+app.use(commentRouter)
 
 if(nodeEnv == 'production'){
     https.createServer({
