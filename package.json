@@ -7,7 +7,7 @@
     "start:dev": "env-cmd -f ./.env.dev nodemon src/app.js"
   },
   "engines": {
-    "node": "12.8.3"
+    "node": "12.8.*"
   },
   "author": "CRI",
   "license": "MIT",
