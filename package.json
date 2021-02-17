@@ -11,6 +11,9 @@
   },
   "author": "CRI",
   "license": "MIT",
+  "engines": {
+    "node": "12.18.3"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "browshot": "^1.22.2",
