@@ -6,6 +6,9 @@
     "start": "node src/app.js",
     "start:dev": "env-cmd -f ./.env.dev nodemon src/app.js"
   },
+  "engines": {
+    "node": "12.8.3"
+  },
   "author": "CRI",
   "license": "MIT",
   "dependencies": {
