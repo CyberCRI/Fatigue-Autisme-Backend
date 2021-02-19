@@ -31,19 +31,18 @@ app.use(questionnaireRouter)
 app.use(commentRouter)
 app.use(dataAdminRoute)
 
-if(nodeEnv == 'production'){
-    https.createServer({
-            key: fs.readFileSync("./private.key"),
-            cert: fs.readFileSync("./certificate.crt"),
-        },
-        app).listen(process.env.PORT || 3000, () => {
-        console.log(
-            "NodeJS: Express Server I listening on Port:" + process.env.PORT + " in mode :" + process.env.nodeEnv
-        );
-    });
-} else {
-    app.listen(port, () => {
-        console.log(`Server running on port ${port}` + ' in mode: development')
-        console.log(__dirname)
-    })
-}
+// if(nodeEnv == 'production'){
+//     https.createServer({
+//             key: fs.readFileSync("./private.key"),
+//             cert: fs.readFileSync("./certificate.crt"),
+//         },
+//         app).listen(process.env.PORT || 3000, () => {
+//         console.log(
+//             "NodeJS: Express Server I listening on Port:" + process.env.PORT + " in mode :" + process.env.nodeEnv
+//         );
+//     });
+// } else {
+app.listen(port, () => {
+    console.log(`Server running on port ${port}` + ' in mode: development')
+    console.log(__dirname)
+});
