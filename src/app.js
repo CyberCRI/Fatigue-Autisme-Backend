@@ -42,7 +42,11 @@ app.use(dataAdminRoute)
 //         );
 //     });
 // } else {
+
 app.listen(port, () => {
-    console.log(`Server running on port ${port}` + ' in mode: development')
+    console.log(`Server running on port ${port}` + ` in mode: ${nodeEnv}`)
+    if (nodeEnv === 'dev') {
+        console.log(`Mongo db url: ${process.env.MONGODB_URL}`)
+    }
     console.log(__dirname)
 });
