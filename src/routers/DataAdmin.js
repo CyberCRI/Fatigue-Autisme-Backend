@@ -49,7 +49,7 @@ router.get('/dataAdmin/:password', [verifyAdmin], async (req, res) => {
                 });
                 const parser = new Parser();
                 const csv = parser.parse(ret);
-                res.attachment('data.csv')
+                res.attachment('answers.csv')
                 res.status(200).send(csv)
             });
     } catch (error) {
@@ -82,7 +82,7 @@ router.get('/dataAdminComments/:password', [verifyAdmin], async (req, res) => {
                 });
                 const parser = new Parser();
                 const csv = parser.parse(ret);
-                res.attachment('data.csv')
+                res.attachment('comments.csv')
                 res.status(200).send(csv)
             });
     } catch (error) {
@@ -116,7 +116,7 @@ router.get('/dataAdminRenseignements/:password', [verifyAdmin], async (req, res)
                 });
                 const parser = new Parser();
                 const csv = parser.parse(ret);
-                res.attachment('data.csv')
+                res.attachment('fiche_renseignements.csv')
                 res.status(200).send(csv)
             });
     } catch (error) {
